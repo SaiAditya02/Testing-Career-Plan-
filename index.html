@@ -537,7 +537,7 @@
     }
 </style>
 
-<h2 class="sr-only">Interactive Notion-style 12-week QA and LLM learning roadmap dashboard</h2>
+<h2 class="sr-only">Interactive Notion-style 14-week QA and LLM learning roadmap dashboard</h2>
 
 <div class="app">
     <div class="sidebar">
@@ -601,7 +601,7 @@
         { name: "QA Setup", color: "#10B981", bg: "rgba(16,185,129,.16)", text: "#D1FAE5", icon: "ti-settings" },
         { name: "JavaScript", color: "#F59E0B", bg: "rgba(245,158,11,.16)", text: "#FDE68A", icon: "ti-code" },
         { name: "Playwright", color: "#6366F1", bg: "rgba(99,102,241,.18)", text: "#C7D2FE", icon: "ti-player-play" },
-        { name: "API Testing", color: "#06B6D4", bg: "rgba(6,182,212,.16)", text: "#CFFAFE", icon: "ti-api" },
+        { name: "API & DB Testing", color: "#06B6D4", bg: "rgba(6,182,212,.16)", text: "#CFFAFE", icon: "ti-api" },
         { name: "AI Testing", color: "#F97316", bg: "rgba(249,115,22,.16)", text: "#FED7AA", icon: "ti-robot" }
     ];
 
@@ -621,11 +621,11 @@
             ], tip: "Save your best prompts in a Notepad doc. Copy-paste and tweak — no need to memorize!"
         },
         {
-            week: 3, phase: 1, title: "QA terminology basics", topics: [
-                { name: "10 must-know terms", icon: "ti-vocabulary", tasks: ["Test case, test suite, test plan", "Bug/defect, severity, priority", "Regression, smoke, sanity testing", "UAT = User Acceptance Testing", "Pass/Fail, Expected vs Actual"] },
-                { name: "Types of testing", icon: "ti-stack", tasks: ["Functional: does it DO what it should?", "UI: does it LOOK correct?", "API: does backend RESPOND correctly?", "Regression: did new code BREAK old things?"] },
-                { name: "LLM for learning terms", icon: "ti-robot", tasks: ["Ask Claude: 'Explain [term] with a real example'", "Ask: 'Give me a quiz on QA terms'", "Build your own glossary doc as you go"] }
-            ], tip: "Don't memorize — ask Claude any term you don't know. Your glossary doc is your memory."
+            week: 3, phase: 1, title: "Manual testing using LLM", topics: [
+                { name: "Writing test cases with AI", icon: "ti-file-text", tasks: ["Prompt: 'Write test cases for a login form with valid/invalid inputs'", "Prompt: 'Give me edge cases for a date picker field'", "Prompt: 'What negative test cases am I missing for checkout flow?'", "Review AI output — add context your app has that AI doesn't"] },
+                { name: "Exploratory testing with LLM", icon: "ti-compass", tasks: ["Describe your feature to Claude, ask 'what could go wrong?'", "Prompt: 'Act as a tester — find edge cases in this user story'", "Use AI to generate diverse user personas for testing", "Ask: 'What accessibility issues might this UI have?'"] },
+                { name: "Bug reporting with AI", icon: "ti-bug", tasks: ["Paste steps to reproduce → ask Claude to make it professional", "Prompt: 'Write a clear bug report for this issue: [describe]'", "Ask: 'What is the severity and priority of this bug?'", "Use AI to suggest root cause before raising the ticket"] }
+            ], tip: "LLM won't replace your testing instinct — but it will 10x your speed. Use it to generate ideas, then YOU decide what to actually test."
         },
         {
             week: 4, phase: 1, title: "Environment setup", topics: [
@@ -635,60 +635,60 @@
             ], tip: "If setup fails, paste the error into Claude: 'I got this error on Windows, fix it step by step'."
         },
         {
-            week: 5, phase: 2, title: "JavaScript basics — part 1", topics: [
-                { name: "Variables and types", icon: "ti-variable", tasks: ["let name = 'John' — text (string)", "let age = 25 — number", "let isLoggedIn = true — boolean (true/false)", "const URL = '...' — value that never changes"] },
-                { name: "Functions", icon: "ti-function", tasks: ["function greet(name) { return 'Hi ' + name }", "Arrow: const greet = (name) => 'Hi ' + name", "Takes input → does something → returns output"] },
-                { name: "Conditions and arrays", icon: "ti-code", tasks: ["if (age > 18) { } else { }", "let browsers = ['chrome','firefox','safari']", "browsers[0] gives 'chrome'", "browsers.length gives 3"] }
-            ], tip: "Only learn JS you need for Playwright. Ask Claude: 'Show me only the JavaScript concepts Playwright needs'."
+            week: 5, phase: 2, title: "JavaScript essentials recap", topics: [
+                { name: "Core syntax refresher", icon: "ti-variable", tasks: ["let / const — when to use each", "Arrow functions: const fn = (x) => x * 2", "Objects: let user = { name:'John' } → user.name", "Arrays: browsers[0], browsers.forEach(), browsers.filter()"] },
+                { name: "async/await deep dive", icon: "ti-clock", tasks: ["Every Playwright action needs await — no exceptions", "async function myTest() { await page.goto(url) }", "Promise.all — run multiple awaits in parallel", "try/catch — handle errors gracefully in tests"] },
+                { name: "JS patterns used in Playwright", icon: "ti-code", tasks: ["Destructuring: const { page } = await browser.newPage()", "Template literals: `Hello ${name}`", "Optional chaining: user?.address?.city", "Ask Claude: 'Show me JS patterns used most in Playwright tests'"] }
+            ], tip: "You already know this — use this week to spot gaps only. Ask Claude to quiz you: 'Give me 5 JS async/await questions a senior QA should know'."
         },
         {
-            week: 6, phase: 2, title: "JavaScript basics — part 2", topics: [
-                { name: "Objects", icon: "ti-braces", tasks: ["let user = { name:'John', age:25 }", "Access: user.name gives 'John'", "Used to compare expected vs actual API responses"] },
-                { name: "Loops", icon: "ti-refresh", tasks: ["for (let i=0; i<5; i++) { ... }", "array.forEach(item => console.log(item))", "Run same test with multiple test data sets"] },
-                { name: "async/await (critical!)", icon: "ti-clock", tasks: ["Pages load slowly — async = 'wait for it'", "async function test() { await page.goto(url) }", "Every Playwright action needs await in front", "Rule: browser action = add await. Always."] }
-            ], tip: "async/await confuses everyone. Just remember: any browser action in Playwright = put await before it. That's the 90% rule."
-        },
-        {
-            week: 7, phase: 3, title: "Playwright basics", topics: [
+            week: 6, phase: 3, title: "Playwright basics", topics: [
                 { name: "Finding elements", icon: "ti-cursor-text", tasks: ["page.getByRole('button',{name:'Login'}) — best", "page.getByText('Welcome') — visible text", "page.locator('#email') — by CSS id", "Ask Claude to suggest locator for any element"] },
                 { name: "Actions", icon: "ti-hand-click", tasks: ["await page.goto('https://site.com')", "await page.fill('#email','test@test.com')", "await page.click('#submit-btn')", "await page.selectOption('#dropdown','val')"] },
                 { name: "Assertions (checking results)", icon: "ti-check", tasks: ["expect(page).toHaveTitle('Dashboard')", "expect(page.getByText('Success')).toBeVisible()", "expect(locator).toHaveText('Error message')", "expect(locator).toBeEnabled()"] }
             ], tip: "Write your first test: goto → fill email → fill password → click → check title. That's 5 lines and a complete real test."
         },
         {
-            week: 8, phase: 3, title: "Page Object Model (POM)", topics: [
+            week: 7, phase: 3, title: "Page Object Model (POM)", topics: [
                 { name: "Why POM?", icon: "ti-puzzle", tasks: ["Without POM: one change breaks 50 tests", "With POM: fix once, all tests update", "Think of it as: pages = ingredients, tests = recipes"] },
                 { name: "Creating a page class", icon: "ti-file-code", tasks: ["class LoginPage { constructor(page){...} }", "async login(email,pass){ await fill; await click }", "Export and import in test files"] },
                 { name: "Folder structure", icon: "ti-folder", tasks: ["pages/ — all page class files", "tests/ — actual test specs", "utils/ — shared helper functions", "data/ — test data JSON files"] }
             ], tip: "Paste your existing test into Claude and say: 'Rewrite this in Page Object Model pattern'. It will structure it for you instantly."
         },
         {
-            week: 9, phase: 4, title: "Playwright intermediate", topics: [
+            week: 8, phase: 3, title: "Playwright advanced concepts", topics: [
                 { name: "Hooks and setup", icon: "ti-hook", tasks: ["beforeEach → runs before every test", "afterEach → cleanup after each test", "beforeAll/afterAll → once per test file", "Login once, run 10 tests — save time"] },
                 { name: "Test data management", icon: "ti-database", tasks: ["Store data in testData.json file", "Use fixtures to inject data into tests", "Parameterize: 1 test × 5 usernames = 5 tests", "Ask Claude: 'Generate 10 invalid email formats in JSON'"] },
                 { name: "Screenshots and reports", icon: "ti-camera", tasks: ["playwright.config: screenshot:'on', video:'on'", "Auto-captures on failure — great for bugs", "npx playwright show-report — HTML report", "Share report with team as proof"] }
             ], tip: "Use LLM to generate test data: 'Give 10 invalid emails for negative testing in JSON'. Saves 30 minutes of thinking."
         },
         {
-            week: 10, phase: 4, title: "API testing basics", topics: [
+            week: 9, phase: 4, title: "API testing basics", topics: [
                 { name: "What is an API?", icon: "ti-api", tasks: ["App A talks to App B via APIs", "Like a waiter taking order to kitchen", "URL + method + data → response data"] },
                 { name: "HTTP basics", icon: "ti-world", tasks: ["GET — fetch/read data", "POST — create something new", "PUT/PATCH — update existing", "Status: 200=OK, 201=Created, 400=Bad, 401=Unauthorized, 500=Error"] },
                 { name: "API testing in Playwright", icon: "ti-code", tasks: ["const res = await request.get('/api/users')", "expect(res.status()).toBe(200)", "const body = await res.json()", "expect(body.users.length).toBeGreaterThan(0)"] }
             ], tip: "Start in Postman first — click around APIs with no code. Then write Playwright API tests for what you already understand."
         },
         {
-            week: 11, phase: 5, title: "Automated AI testing", topics: [
-                { name: "What makes AI testing different?", icon: "ti-help-circle", tasks: ["AI output is not 100% predictable", "You test: relevance, format, safety, accuracy", "Can't do exact string match — use fuzzy checks", "New field — even senior QAs are learning this"] },
-                { name: "LLM-as-a-Judge pattern", icon: "ti-gavel", tasks: ["Send prompt to AI → get response", "Pass response to another AI to evaluate", "Evaluator prompt: 'Is this accurate? Yes/No + reason'", "This is the standard AI testing pattern in 2025"] },
-                { name: "What to test in AI apps", icon: "ti-checklist", tasks: ["Does it respond safely to offensive input?", "Does it give correct format (JSON, table)?", "Does it hallucinate? Test with known-answer Qs", "Does it stay on topic?"] }
-            ], tip: "AI testing is brand new. Knowing LLM-as-Judge + format checks + safety tests puts you ahead of 90% of QAs in the market."
+            week: 10, phase: 5, title: "Playwright + AI integration (browser agents)", topics: [
+                { name: "Concepts", icon: "ti-brain", tasks: ["Browser agents: LLM + Playwright = autonomous web testing agent", "browser-use library: connecting LLMs to Playwright for task execution", "Where AI-driven testing helps (exploratory, unstructured flows) vs where traditional automation wins (regression, deterministic)", "Self-healing locators — AI-assisted selector repair when UI changes", "Cost/latency trade-offs of AI-augmented test execution"] },
+                { name: "Hands-on with browser-use", icon: "ti-player-play", tasks: ["Install: pip install browser-use (Python) or JS equivalent", "Give LLM a goal: 'Go to site, login, check dashboard loads'", "LLM generates Playwright actions autonomously", "Compare: AI path vs your manual Playwright test — spot the diff"] },
+                { name: "When to use AI agents vs scripted tests", icon: "ti-scale", tasks: ["Use agents for: exploratory, one-off, hard-to-script flows", "Use scripted tests for: regression, CI/CD, high-frequency runs", "AI agents are slower + costlier — use them strategically", "Ask Claude: 'Write a browser-use agent that tests login flow'"] }
+            ], tip: "This is cutting-edge and differentiating. Combining your Playwright skill + AI knowledge here puts you ahead of 95% of QA engineers in the market right now."
         },
         {
-            week: 12, phase: 5, title: "Demo project — final build", topics: [
+            week: 11, phase: 5, title: "Demo project — final build", topics: [
                 { name: "Pick a practice app", icon: "ti-app-window", tasks: ["automationexercise.com — great for UI+API", "the-internet.herokuapp.com — classic QA site", "Conduit (RealWorld app) — has full API+UI", "Choose one and stick with it"] },
-                { name: "What to automate", icon: "ti-route", tasks: ["UI flow: Register → Login → Action → Logout", "API: validate user creation + product list endpoints", "AI check: test chatbot response quality if available", "Stitch all 3 into one test suite"] },
+                { name: "What to automate", icon: "ti-route", tasks: ["UI flow: Register → Login → Action → Logout", "API: validate user creation + product list endpoints", "DB check: verify data saved correctly after each API call", "Stitch all 3 into one test suite"] },
                 { name: "Present your work", icon: "ti-presentation", tasks: ["npx playwright test --reporter=html", "Share HTML report — shows pass/fail + screenshots", "Write 1-page README: what you tested and why", "This is your portfolio proof — show it proudly!"] }
-            ], tip: "5 working tests with POM + 2 API tests + 1 AI check > 50 broken tests. Depth of understanding matters more than quantity."
+            ], tip: "5 working tests with POM + 2 API tests + 1 DB assertion > 50 broken tests. Depth of understanding matters more than quantity."
+        },
+        {
+            week: 12, phase: 4, title: "Database testing", topics: [
+                { name: "Why test the database?", icon: "ti-database", tasks: ["UI can show 'success' but DB might not have saved", "API returns 200 but data could be corrupt in DB", "DB testing = ultimate truth check after any action", "Critical for e-commerce, banking, and healthcare apps"] },
+                { name: "SQL basics for QA", icon: "ti-table", tasks: ["SELECT * FROM users WHERE email = 'test@test.com'", "After POST /register → query DB to confirm user exists", "After DELETE /user → query DB to confirm row is gone", "Ask Claude: 'Explain SELECT, WHERE, INSERT, DELETE for QA'"] },
+                { name: "DB checks in Playwright tests", icon: "ti-plug", tasks: ["Install: npm install pg (PostgreSQL) or mysql2", "Connect to DB → run query → assert result in test", "expect(result.rows.length).toBe(1) — verify record exists", "Always close DB connection in afterAll() hook"] }
+            ], tip: "DB testing separates average QAs from great ones. Even knowing SELECT + asserting row count after an API call is enough to impress any interviewer."
         }
     ];
 
