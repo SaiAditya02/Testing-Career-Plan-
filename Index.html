@@ -1,0 +1,865 @@
+<style>
+    :root {
+        color-scheme: dark;
+        --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --border-radius-lg: 28px;
+        --border-radius-md: 18px;
+        --color-background-page: #060816;
+        --color-background-primary: #0f172a;
+        --color-background-secondary: #131c31;
+        --color-background-tertiary: #1b2742;
+        --color-background-elevated: #16213a;
+        --color-border-tertiary: rgba(148, 163, 184, .16);
+        --color-border-secondary: rgba(129, 140, 248, .38);
+        --color-text-primary: #f8fafc;
+        --color-text-secondary: #cbd5e1;
+        --color-text-tertiary: #8ea0ba;
+        --shadow-soft: 0 20px 60px rgba(2, 6, 23, .45);
+        --shadow-card: 0 10px 30px rgba(2, 6, 23, .28);
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0
+    }
+
+    html,
+    body {
+        min-height: 100%;
+        background:
+            radial-gradient(circle at top left, rgba(99, 102, 241, .18), transparent 28%),
+            radial-gradient(circle at top right, rgba(14, 165, 233, .14), transparent 24%),
+            linear-gradient(180deg, #060816 0%, #0a1020 100%);
+        font-family: var(--font-sans)
+    }
+
+    body {
+        padding: 24px;
+        color: var(--color-text-primary)
+    }
+
+    .app {
+        display: flex;
+        min-height: 700px;
+        background: linear-gradient(180deg, rgba(15, 23, 42, .95), rgba(8, 15, 31, .96));
+        border: 1px solid var(--color-border-tertiary);
+        border-radius: var(--border-radius-lg);
+        overflow: hidden;
+        font-family: var(--font-sans);
+        box-shadow: var(--shadow-soft);
+        backdrop-filter: blur(14px)
+    }
+
+    .sidebar {
+        width: 240px;
+        min-width: 240px;
+        background: linear-gradient(180deg, rgba(19, 28, 49, .98), rgba(12, 20, 38, .98));
+        border-right: 1px solid var(--color-border-tertiary);
+        padding: 18px 0;
+        display: flex;
+        flex-direction: column
+    }
+
+    .sb-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 18px 18px;
+        border-bottom: 1px solid var(--color-border-tertiary);
+        margin-bottom: 10px
+    }
+
+    .sb-logo-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #818cf8, #38bdf8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        color: #f8fafc;
+        box-shadow: 0 8px 24px rgba(99, 102, 241, .35)
+    }
+
+    .sb-logo-text {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--color-text-primary)
+    }
+
+    .sb-section {
+        padding: 6px 16px;
+        font-size: 11px;
+        color: var(--color-text-tertiary);
+        letter-spacing: .08em;
+        margin-top: 10px;
+        margin-bottom: 4px;
+        text-transform: uppercase
+    }
+
+    .sb-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 16px;
+        cursor: pointer;
+        border-radius: 12px;
+        font-size: 13px;
+        color: var(--color-text-secondary);
+        transition: background .18s, border-color .18s, transform .18s;
+        user-select: none;
+        margin: 0 10px 2px;
+        border: 1px solid transparent
+    }
+
+    .sb-item:hover {
+        background: rgba(30, 41, 59, .9);
+        border-color: rgba(148, 163, 184, .14);
+        transform: translateX(2px)
+    }
+
+    .sb-item.active {
+        background: linear-gradient(135deg, rgba(99, 102, 241, .18), rgba(56, 189, 248, .12));
+        color: var(--color-text-primary);
+        border-color: rgba(129, 140, 248, .35);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .03)
+    }
+
+    .sb-item i {
+        font-size: 15px;
+        min-width: 16px
+    }
+
+    .sb-badge {
+        margin-left: auto;
+        font-size: 10px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: rgba(99, 102, 241, .16);
+        color: #c7d2fe;
+        border: 1px solid rgba(129, 140, 248, .2)
+    }
+
+    .sb-progress-wrap {
+        padding: 14px 18px;
+        margin-top: auto;
+        border-top: 1px solid var(--color-border-tertiary)
+    }
+
+    .sb-progress-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        color: var(--color-text-secondary);
+        margin-bottom: 6px
+    }
+
+    .progress-bar-bg {
+        height: 6px;
+        background: rgba(148, 163, 184, .12);
+        border-radius: 999px;
+        overflow: hidden
+    }
+
+    .progress-bar-fill {
+        height: 6px;
+        background: linear-gradient(90deg, #818cf8, #22d3ee);
+        border-radius: 999px;
+        transition: width 0.4s;
+        box-shadow: 0 0 20px rgba(99, 102, 241, .35)
+    }
+
+    .main {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0
+    }
+
+    .topbar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 18px 24px 16px;
+        border-bottom: 1px solid var(--color-border-tertiary);
+        background: rgba(15, 23, 42, .55);
+        backdrop-filter: blur(10px)
+    }
+
+    .topbar-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        flex: 1;
+        letter-spacing: -.01em
+    }
+
+    .topbar-chip {
+        font-size: 11px;
+        padding: 5px 12px;
+        border-radius: 999px;
+        background: rgba(99, 102, 241, .16);
+        color: #dbeafe;
+        border: 1px solid rgba(129, 140, 248, .24)
+    }
+
+    .view-toggle {
+        display: flex;
+        border: 1px solid var(--color-border-tertiary);
+        border-radius: var(--border-radius-md);
+        overflow: hidden;
+        background: rgba(15, 23, 42, .7);
+        padding: 3px;
+        gap: 3px
+    }
+
+    .vt-btn {
+        padding: 7px 12px;
+        font-size: 12px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        color: var(--color-text-secondary);
+        border-radius: 12px;
+        transition: background .18s, color .18s
+    }
+
+    .vt-btn.sel {
+        background: linear-gradient(135deg, rgba(99, 102, 241, .26), rgba(56, 189, 248, .18));
+        color: var(--color-text-primary)
+    }
+
+    .content {
+        padding: 24px
+    }
+
+    .week-row {
+        display: grid;
+        grid-template-columns: 90px 1fr;
+        gap: 0;
+        margin-bottom: 2px;
+        align-items: stretch
+    }
+
+    .week-label-col {
+        padding: 12px 12px 10px 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-end;
+        border-right: 1px solid var(--color-border-tertiary)
+    }
+
+    .week-num {
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--color-text-secondary);
+        white-space: nowrap
+    }
+
+    .week-phase-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-top: 8px;
+        margin-right: -6px;
+        border: 2px solid #0f172a;
+        box-shadow: 0 0 0 4px rgba(15, 23, 42, .85)
+    }
+
+    .week-content-col {
+        padding: 8px 0 8px 16px
+    }
+
+    .week-card {
+        background: linear-gradient(180deg, rgba(15, 23, 42, .96), rgba(19, 28, 49, .9));
+        border: 1px solid var(--color-border-tertiary);
+        border-radius: var(--border-radius-md);
+        padding: 12px 14px;
+        cursor: pointer;
+        transition: border-color .18s, transform .18s, box-shadow .18s;
+        box-shadow: var(--shadow-card)
+    }
+
+    .week-card:hover {
+        border-color: var(--color-border-secondary);
+        transform: translateY(-1px);
+        box-shadow: 0 14px 40px rgba(2, 6, 23, .35)
+    }
+
+    .week-card.expanded {
+        border-color: #818cf8;
+        box-shadow: 0 0 0 1px rgba(129, 140, 248, .18), 0 18px 44px rgba(2, 6, 23, .4)
+    }
+
+    .wc-header {
+        display: flex;
+        align-items: center;
+        gap: 8px
+    }
+
+    .wc-tag {
+        font-size: 10px;
+        padding: 4px 9px;
+        border-radius: 999px;
+        font-weight: 600;
+        border: 1px solid rgba(255, 255, 255, .06)
+    }
+
+    .wc-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        flex: 1
+    }
+
+    .wc-check-wrap {
+        display: flex;
+        gap: 4px;
+        margin-left: auto
+    }
+
+    .wc-mini-chip {
+        font-size: 10px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, .08);
+        color: var(--color-text-secondary);
+        border: 1px solid rgba(148, 163, 184, .12)
+    }
+
+    .wc-chevron {
+        font-size: 14px;
+        color: var(--color-text-tertiary);
+        transition: transform 0.2s
+    }
+
+    .wc-chevron.open {
+        transform: rotate(90deg)
+    }
+
+    .wc-body {
+        padding-top: 12px;
+        border-top: 1px solid var(--color-border-tertiary);
+        margin-top: 12px;
+        display: none
+    }
+
+    .wc-body.show {
+        display: block
+    }
+
+    .topic-block {
+        margin-bottom: 12px
+    }
+
+    .topic-title {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 6px
+    }
+
+    .topic-title i {
+        font-size: 13px;
+        color: var(--color-text-secondary)
+    }
+
+    .task-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 6px 0;
+        cursor: pointer
+    }
+
+    .task-cb {
+        width: 16px;
+        height: 16px;
+        border: 1.5px solid rgba(148, 163, 184, .32);
+        border-radius: 4px;
+        min-width: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background .15s, border-color .15s, box-shadow .15s;
+        margin-top: 1px;
+        background: rgba(15, 23, 42, .72)
+    }
+
+    .task-cb.done {
+        background: linear-gradient(135deg, #818cf8, #22d3ee);
+        border-color: #818cf8;
+        box-shadow: 0 0 16px rgba(99, 102, 241, .28)
+    }
+
+    .task-cb.done::after {
+        content: '';
+        width: 8px;
+        height: 5px;
+        border-left: 1.5px solid #fff;
+        border-bottom: 1.5px solid #fff;
+        transform: rotate(-45deg) translateY(-1px);
+        display: block
+    }
+
+    .task-text {
+        font-size: 12px;
+        color: var(--color-text-secondary);
+        line-height: 1.5
+    }
+
+    .task-text.done {
+        color: var(--color-text-tertiary);
+        text-decoration: line-through
+    }
+
+    .tip-card {
+        background: linear-gradient(135deg, rgba(79, 70, 229, .18), rgba(56, 189, 248, .12));
+        border-radius: var(--border-radius-md);
+        padding: 10px 12px;
+        margin-top: 10px;
+        font-size: 11px;
+        color: #dbeafe;
+        line-height: 1.7;
+        border: 1px solid rgba(129, 140, 248, .18)
+    }
+
+    .tip-card strong {
+        color: #ffffff
+    }
+
+    .stats-bar {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 20px
+    }
+
+    .stat-card {
+        background: linear-gradient(180deg, rgba(19, 28, 49, .95), rgba(15, 23, 42, .9));
+        border-radius: var(--border-radius-md);
+        padding: 14px 12px;
+        text-align: center;
+        border: 1px solid var(--color-border-tertiary);
+        box-shadow: var(--shadow-card)
+    }
+
+    .stat-num {
+        font-size: 22px;
+        font-weight: 500;
+        color: var(--color-text-primary)
+    }
+
+    .stat-label {
+        font-size: 11px;
+        color: var(--color-text-secondary);
+        margin-top: 2px
+    }
+
+    .board-cols {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px
+    }
+
+    .board-col-head {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--color-text-secondary);
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px
+    }
+
+    .board-col-badge {
+        font-size: 10px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, .06)
+    }
+
+    .board-item {
+        background: linear-gradient(180deg, rgba(15, 23, 42, .96), rgba(19, 28, 49, .9));
+        border: 1px solid var(--color-border-tertiary);
+        border-radius: var(--border-radius-md);
+        padding: 12px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        box-shadow: var(--shadow-card);
+        transition: border-color .18s, transform .18s
+    }
+
+    .board-item:hover {
+        border-color: var(--color-border-secondary);
+        transform: translateY(-1px)
+    }
+
+    .bi-title {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--color-text-primary);
+        margin-bottom: 4px
+    }
+
+    .bi-tag {
+        font-size: 10px;
+        padding: 3px 8px;
+        border-radius: 999px;
+        display: inline-block;
+        border: 1px solid rgba(255, 255, 255, .06)
+    }
+
+    .content::-webkit-scrollbar,
+    .main::-webkit-scrollbar {
+        width: 10px;
+        height: 10px
+    }
+
+    .content::-webkit-scrollbar-thumb,
+    .main::-webkit-scrollbar-thumb {
+        background: rgba(148, 163, 184, .18);
+        border-radius: 999px
+    }
+
+    .content::-webkit-scrollbar-track,
+    .main::-webkit-scrollbar-track {
+        background: transparent
+    }
+
+    .hidden {
+        display: none
+    }
+</style>
+
+<h2 class="sr-only">Interactive Notion-style 12-week QA and LLM learning roadmap dashboard</h2>
+
+<div class="app">
+    <div class="sidebar">
+        <div class="sb-logo">
+            <div class="sb-logo-icon"><i class="ti ti-bolt" aria-hidden="true"></i></div>
+            <div class="sb-logo-text">QA Roadmap</div>
+        </div>
+        <div class="sb-section">Workspace</div>
+        <div class="sb-item active" data-view="timeline" onclick="switchView('timeline')">
+            <i class="ti ti-calendar-week" aria-hidden="true"></i> Timeline
+        </div>
+        <div class="sb-item" data-view="board" onclick="switchView('board')">
+            <i class="ti ti-layout-columns" aria-hidden="true"></i> Board
+        </div>
+        <div class="sb-item" data-view="progress" onclick="switchView('progress')">
+            <i class="ti ti-chart-bar" aria-hidden="true"></i> Progress
+        </div>
+        <div class="sb-section">Phases</div>
+        <div class="sb-item" onclick="filterPhase(0)"><i class="ti ti-brain" aria-hidden="true"></i> LLM Foundations
+            <span class="sb-badge">2w</span>
+        </div>
+        <div class="sb-item" onclick="filterPhase(1)"><i class="ti ti-settings" aria-hidden="true"></i> QA Setup <span
+                class="sb-badge">2w</span></div>
+        <div class="sb-item" onclick="filterPhase(2)"><i class="ti ti-code" aria-hidden="true"></i> JavaScript <span
+                class="sb-badge">2w</span></div>
+        <div class="sb-item" onclick="filterPhase(3)"><i class="ti ti-player-play" aria-hidden="true"></i> Playwright
+            <span class="sb-badge">2w</span>
+        </div>
+        <div class="sb-item" onclick="filterPhase(4)"><i class="ti ti-api" aria-hidden="true"></i> API Testing <span
+                class="sb-badge">2w</span></div>
+        <div class="sb-item" onclick="filterPhase(5)"><i class="ti ti-robot" aria-hidden="true"></i> AI Testing <span
+                class="sb-badge">2w</span></div>
+        <div class="sb-progress-wrap">
+            <div class="sb-progress-label"><span>Overall progress</span><span id="pct">0%</span></div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="globalBar" style="width:0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="topbar">
+            <div class="topbar-title" id="viewTitle">12-week timeline</div>
+            <span class="topbar-chip" id="filterChip" style="display:none"></span>
+            <div class="view-toggle">
+                <button class="vt-btn sel" id="vt-timeline" onclick="switchView('timeline')"><i
+                        class="ti ti-calendar-week"></i></button>
+                <button class="vt-btn" id="vt-board" onclick="switchView('board')"><i
+                        class="ti ti-layout-columns"></i></button>
+                <button class="vt-btn" id="vt-progress" onclick="switchView('progress')"><i
+                        class="ti ti-chart-bar"></i></button>
+            </div>
+        </div>
+        <div class="content" id="mainContent"></div>
+    </div>
+</div>
+
+<script>
+    const phases = [
+        { name: "LLM Foundations", color: "#8B5CF6", bg: "rgba(139,92,246,.18)", text: "#E9D5FF", icon: "ti-brain" },
+        { name: "QA Setup", color: "#10B981", bg: "rgba(16,185,129,.16)", text: "#D1FAE5", icon: "ti-settings" },
+        { name: "JavaScript", color: "#F59E0B", bg: "rgba(245,158,11,.16)", text: "#FDE68A", icon: "ti-code" },
+        { name: "Playwright", color: "#6366F1", bg: "rgba(99,102,241,.18)", text: "#C7D2FE", icon: "ti-player-play" },
+        { name: "API Testing", color: "#06B6D4", bg: "rgba(6,182,212,.16)", text: "#CFFAFE", icon: "ti-api" },
+        { name: "AI Testing", color: "#F97316", bg: "rgba(249,115,22,.16)", text: "#FED7AA", icon: "ti-robot" }
+    ];
+
+    const weeks = [
+        {
+            week: 1, phase: 0, title: "What is an LLM?", topics: [
+                { name: "Core concepts", icon: "ti-bulb", tasks: ["LLM = smart autocomplete trained on internet", "Prompt = your instruction, Response = AI output", "Temperature controls creativity vs accuracy", "Context window = AI short-term memory"] },
+                { name: "Popular LLMs", icon: "ti-brand-openai", tasks: ["Claude (Anthropic) — best for analysis/coding", "ChatGPT (OpenAI) — widely used, great for chat", "Gemini (Google) — good for multimodal tasks"] },
+                { name: "Hands-on", icon: "ti-hand-click", tasks: ["Open Claude.ai and ask it 3 different questions", "Rephrase same question 3 ways, compare outputs", "Ask: 'Explain API testing like I am 10'"] }
+            ], tip: "Just USE the tool. Don't try to understand the math. Treat it like a smart assistant."
+        },
+        {
+            week: 2, phase: 0, title: "How to write great prompts", topics: [
+                { name: "4-part prompt formula", icon: "ti-template", tasks: ["Role: 'You are a senior QA engineer'", "Context: describe your app/situation", "Task: what exactly you want done", "Format: table, bullet list, code block"] },
+                { name: "Common mistakes to avoid", icon: "ti-alert-triangle", tasks: ["Too vague: 'write tests' — add context always", "No role = generic answers", "Forgetting to ask for edge cases"] },
+                { name: "QA-specific prompts", icon: "ti-test-pipe", tasks: ["'Generate 5 test cases for login form'", "'What are edge cases for a date-picker?'", "'Explain this error message simply'"] }
+            ], tip: "Save your best prompts in a Notepad doc. Copy-paste and tweak — no need to memorize!"
+        },
+        {
+            week: 3, phase: 1, title: "QA terminology basics", topics: [
+                { name: "10 must-know terms", icon: "ti-vocabulary", tasks: ["Test case, test suite, test plan", "Bug/defect, severity, priority", "Regression, smoke, sanity testing", "UAT = User Acceptance Testing", "Pass/Fail, Expected vs Actual"] },
+                { name: "Types of testing", icon: "ti-stack", tasks: ["Functional: does it DO what it should?", "UI: does it LOOK correct?", "API: does backend RESPOND correctly?", "Regression: did new code BREAK old things?"] },
+                { name: "LLM for learning terms", icon: "ti-robot", tasks: ["Ask Claude: 'Explain [term] with a real example'", "Ask: 'Give me a quiz on QA terms'", "Build your own glossary doc as you go"] }
+            ], tip: "Don't memorize — ask Claude any term you don't know. Your glossary doc is your memory."
+        },
+        {
+            week: 4, phase: 1, title: "Environment setup", topics: [
+                { name: "Tools to install", icon: "ti-download", tasks: ["VS Code — code editor (code.visualstudio.com)", "Node.js LTS — runtime for Playwright", "Git — version control (git-scm.com)", "npm comes with Node.js automatically"] },
+                { name: "Git survival kit (5 commands)", icon: "ti-git-branch", tasks: ["git init — start a project", "git add . — stage all changes", "git commit -m 'msg' — save snapshot", "git status — what changed?", "git log — view history"] },
+                { name: "Playwright first run", icon: "ti-player-play", tasks: ["npm init playwright@latest", "Choose JavaScript (easier than TypeScript)", "npx playwright test — run example tests", "See green/red in terminal — your first results!"] }
+            ], tip: "If setup fails, paste the error into Claude: 'I got this error on Windows, fix it step by step'."
+        },
+        {
+            week: 5, phase: 2, title: "JavaScript basics — part 1", topics: [
+                { name: "Variables and types", icon: "ti-variable", tasks: ["let name = 'John' — text (string)", "let age = 25 — number", "let isLoggedIn = true — boolean (true/false)", "const URL = '...' — value that never changes"] },
+                { name: "Functions", icon: "ti-function", tasks: ["function greet(name) { return 'Hi ' + name }", "Arrow: const greet = (name) => 'Hi ' + name", "Takes input → does something → returns output"] },
+                { name: "Conditions and arrays", icon: "ti-code", tasks: ["if (age > 18) { } else { }", "let browsers = ['chrome','firefox','safari']", "browsers[0] gives 'chrome'", "browsers.length gives 3"] }
+            ], tip: "Only learn JS you need for Playwright. Ask Claude: 'Show me only the JavaScript concepts Playwright needs'."
+        },
+        {
+            week: 6, phase: 2, title: "JavaScript basics — part 2", topics: [
+                { name: "Objects", icon: "ti-braces", tasks: ["let user = { name:'John', age:25 }", "Access: user.name gives 'John'", "Used to compare expected vs actual API responses"] },
+                { name: "Loops", icon: "ti-refresh", tasks: ["for (let i=0; i<5; i++) { ... }", "array.forEach(item => console.log(item))", "Run same test with multiple test data sets"] },
+                { name: "async/await (critical!)", icon: "ti-clock", tasks: ["Pages load slowly — async = 'wait for it'", "async function test() { await page.goto(url) }", "Every Playwright action needs await in front", "Rule: browser action = add await. Always."] }
+            ], tip: "async/await confuses everyone. Just remember: any browser action in Playwright = put await before it. That's the 90% rule."
+        },
+        {
+            week: 7, phase: 3, title: "Playwright basics", topics: [
+                { name: "Finding elements", icon: "ti-cursor-text", tasks: ["page.getByRole('button',{name:'Login'}) — best", "page.getByText('Welcome') — visible text", "page.locator('#email') — by CSS id", "Ask Claude to suggest locator for any element"] },
+                { name: "Actions", icon: "ti-hand-click", tasks: ["await page.goto('https://site.com')", "await page.fill('#email','test@test.com')", "await page.click('#submit-btn')", "await page.selectOption('#dropdown','val')"] },
+                { name: "Assertions (checking results)", icon: "ti-check", tasks: ["expect(page).toHaveTitle('Dashboard')", "expect(page.getByText('Success')).toBeVisible()", "expect(locator).toHaveText('Error message')", "expect(locator).toBeEnabled()"] }
+            ], tip: "Write your first test: goto → fill email → fill password → click → check title. That's 5 lines and a complete real test."
+        },
+        {
+            week: 8, phase: 3, title: "Page Object Model (POM)", topics: [
+                { name: "Why POM?", icon: "ti-puzzle", tasks: ["Without POM: one change breaks 50 tests", "With POM: fix once, all tests update", "Think of it as: pages = ingredients, tests = recipes"] },
+                { name: "Creating a page class", icon: "ti-file-code", tasks: ["class LoginPage { constructor(page){...} }", "async login(email,pass){ await fill; await click }", "Export and import in test files"] },
+                { name: "Folder structure", icon: "ti-folder", tasks: ["pages/ — all page class files", "tests/ — actual test specs", "utils/ — shared helper functions", "data/ — test data JSON files"] }
+            ], tip: "Paste your existing test into Claude and say: 'Rewrite this in Page Object Model pattern'. It will structure it for you instantly."
+        },
+        {
+            week: 9, phase: 4, title: "Playwright intermediate", topics: [
+                { name: "Hooks and setup", icon: "ti-hook", tasks: ["beforeEach → runs before every test", "afterEach → cleanup after each test", "beforeAll/afterAll → once per test file", "Login once, run 10 tests — save time"] },
+                { name: "Test data management", icon: "ti-database", tasks: ["Store data in testData.json file", "Use fixtures to inject data into tests", "Parameterize: 1 test × 5 usernames = 5 tests", "Ask Claude: 'Generate 10 invalid email formats in JSON'"] },
+                { name: "Screenshots and reports", icon: "ti-camera", tasks: ["playwright.config: screenshot:'on', video:'on'", "Auto-captures on failure — great for bugs", "npx playwright show-report — HTML report", "Share report with team as proof"] }
+            ], tip: "Use LLM to generate test data: 'Give 10 invalid emails for negative testing in JSON'. Saves 30 minutes of thinking."
+        },
+        {
+            week: 10, phase: 4, title: "API testing basics", topics: [
+                { name: "What is an API?", icon: "ti-api", tasks: ["App A talks to App B via APIs", "Like a waiter taking order to kitchen", "URL + method + data → response data"] },
+                { name: "HTTP basics", icon: "ti-world", tasks: ["GET — fetch/read data", "POST — create something new", "PUT/PATCH — update existing", "Status: 200=OK, 201=Created, 400=Bad, 401=Unauthorized, 500=Error"] },
+                { name: "API testing in Playwright", icon: "ti-code", tasks: ["const res = await request.get('/api/users')", "expect(res.status()).toBe(200)", "const body = await res.json()", "expect(body.users.length).toBeGreaterThan(0)"] }
+            ], tip: "Start in Postman first — click around APIs with no code. Then write Playwright API tests for what you already understand."
+        },
+        {
+            week: 11, phase: 5, title: "Automated AI testing", topics: [
+                { name: "What makes AI testing different?", icon: "ti-help-circle", tasks: ["AI output is not 100% predictable", "You test: relevance, format, safety, accuracy", "Can't do exact string match — use fuzzy checks", "New field — even senior QAs are learning this"] },
+                { name: "LLM-as-a-Judge pattern", icon: "ti-gavel", tasks: ["Send prompt to AI → get response", "Pass response to another AI to evaluate", "Evaluator prompt: 'Is this accurate? Yes/No + reason'", "This is the standard AI testing pattern in 2025"] },
+                { name: "What to test in AI apps", icon: "ti-checklist", tasks: ["Does it respond safely to offensive input?", "Does it give correct format (JSON, table)?", "Does it hallucinate? Test with known-answer Qs", "Does it stay on topic?"] }
+            ], tip: "AI testing is brand new. Knowing LLM-as-Judge + format checks + safety tests puts you ahead of 90% of QAs in the market."
+        },
+        {
+            week: 12, phase: 5, title: "Demo project — final build", topics: [
+                { name: "Pick a practice app", icon: "ti-app-window", tasks: ["automationexercise.com — great for UI+API", "the-internet.herokuapp.com — classic QA site", "Conduit (RealWorld app) — has full API+UI", "Choose one and stick with it"] },
+                { name: "What to automate", icon: "ti-route", tasks: ["UI flow: Register → Login → Action → Logout", "API: validate user creation + product list endpoints", "AI check: test chatbot response quality if available", "Stitch all 3 into one test suite"] },
+                { name: "Present your work", icon: "ti-presentation", tasks: ["npx playwright test --reporter=html", "Share HTML report — shows pass/fail + screenshots", "Write 1-page README: what you tested and why", "This is your portfolio proof — show it proudly!"] }
+            ], tip: "5 working tests with POM + 2 API tests + 1 AI check > 50 broken tests. Depth of understanding matters more than quantity."
+        }
+    ];
+
+    let done = {};
+    let expanded = {};
+    let currentView = 'timeline';
+    let activeFilter = null;
+
+    function totalTasks() { return weeks.reduce((a, w) => a + w.topics.reduce((b, t) => b + t.tasks.length, 0), 0) }
+    function doneTasks() { return Object.values(done).filter(Boolean).length }
+    function weekDone(wi) {
+        let tot = 0, d = 0;
+        weeks[wi].topics.forEach(t => t.tasks.forEach((_, ti) => { tot++; if (done[wi + '-' + ti + '-' + t.name]) d++ }));
+        return { tot, d };
+    }
+
+    function updateProgress() {
+        const pct = totalTasks() > 0 ? Math.round(doneTasks() / totalTasks() * 100) : 0;
+        document.getElementById('pct').textContent = pct + '%';
+        document.getElementById('globalBar').style.width = pct + '%';
+    }
+
+    function switchView(v) {
+        currentView = v;
+        activeFilter = null;
+        document.getElementById('filterChip').style.display = 'none';
+        ['timeline', 'board', 'progress'].forEach(x => {
+            document.getElementById('vt-' + x).classList.toggle('sel', x === v);
+            document.querySelector('.sb-item[data-view=' + x + ']') && document.querySelector('.sb-item[data-view=' + x + ']').classList.toggle('active', x === v);
+        });
+        const titles = { timeline: '12-week timeline', board: 'Board view', progress: 'Progress tracker' };
+        document.getElementById('viewTitle').textContent = titles[v];
+        render();
+    }
+
+    function filterPhase(pi) {
+        activeFilter = pi;
+        currentView = 'timeline';
+        document.getElementById('filterChip').style.display = '';
+        document.getElementById('filterChip').textContent = phases[pi].name;
+        render();
+    }
+
+    function render() {
+        const el = document.getElementById('mainContent');
+        if (currentView === 'timeline') el.innerHTML = renderTimeline();
+        else if (currentView === 'board') el.innerHTML = renderBoard();
+        else el.innerHTML = renderProgress();
+        attachHandlers();
+        updateProgress();
+    }
+
+    function renderTimeline() {
+        const filtered = activeFilter != null ? weeks.filter(w => w.phase === activeFilter) : weeks;
+        let html = '<div style="display:flex;flex-direction:column;gap:6px">';
+        filtered.forEach((w, i) => {
+            const wi = weeks.indexOf(w);
+            const ph = phases[w.phase];
+            const { tot, d } = weekDone(wi);
+            const pct = tot > 0 ? Math.round(d / tot * 100) : 0;
+            const exp = expanded[wi];
+            html += `<div class="week-row">
+      <div class="week-label-col">
+        <span class="week-num">Week ${w.week}</span>
+        <div class="week-phase-dot" style="background:${ph.color}"></div>
+      </div>
+      <div class="week-content-col">
+        <div class="week-card${exp ? ' expanded' : ''}" data-wi="${wi}" onclick="toggleWeek(${wi})">
+          <div class="wc-header">
+            <span class="wc-tag" style="background:${ph.bg};color:${ph.text}">${ph.name}</span>
+            <span class="wc-title">${w.title}</span>
+            <span class="wc-mini-chip">${d}/${tot}</span>
+            <i class="ti ti-chevron-right wc-chevron${exp ? ' open' : ''}" aria-hidden="true"></i>
+          </div>
+          ${exp ? `<div class="wc-body show">${renderWeekBody(wi, w)}</div>` : ''}
+        </div>
+      </div>
+    </div>`;
+        });
+        return html + '</div>';
+    }
+
+    function renderWeekBody(wi, w) {
+        let html = '';
+        w.topics.forEach(t => {
+            html += `<div class="topic-block"><div class="topic-title"><i class="ti ${t.icon}" aria-hidden="true"></i>${t.name}</div>`;
+            t.tasks.forEach((task, ti) => {
+                const key = wi + '-' + ti + '-' + t.name;
+                const isDone = done[key];
+                html += `<div class="task-item" onclick="toggleTask(event,'${key}')">
+        <div class="task-cb${isDone ? ' done' : ''}" data-key="${key}"></div>
+        <span class="task-text${isDone ? ' done' : ''}">${task}</span>
+      </div>`;
+            });
+            html += '</div>';
+        });
+        html += `<div class="tip-card"><strong>Slow learner tip:</strong> ${w.tip}</div>`;
+        return html;
+    }
+
+    function renderBoard() {
+        const cols = [
+            { label: 'Not started', filter: w => weekDone(weeks.indexOf(w)).d === 0, badge: 'rgba(148,163,184,.14)', badgeText: '#CBD5E1' },
+            { label: 'In progress', filter: w => { const { d, tot } = weekDone(weeks.indexOf(w)); return d > 0 && d < tot }, badge: 'rgba(245,158,11,.16)', badgeText: '#FDE68A' },
+            { label: 'Completed', filter: w => weekDone(weeks.indexOf(w)).d === weekDone(weeks.indexOf(w)).tot && weekDone(weeks.indexOf(w)).tot > 0, badge: 'rgba(16,185,129,.16)', badgeText: '#D1FAE5' }
+        ];
+        let html = '<div class="board-cols">';
+        cols.forEach(col => {
+            const items = weeks.filter(col.filter);
+            html += `<div><div class="board-col-head"><i class="ti ti-circle" aria-hidden="true" style="font-size:12px"></i>${col.label} <span class="board-col-badge" style="background:${col.badge};color:${col.badgeText}">${items.length}</span></div>`;
+            items.forEach(w => {
+                const ph = phases[w.phase];
+                html += `<div class="board-item" onclick="goToWeek(${weeks.indexOf(w)})">
+        <div class="bi-title">Week ${w.week}: ${w.title}</div>
+        <span class="bi-tag" style="background:${ph.bg};color:${ph.text}">${ph.name}</span>
+      </div>`;
+            });
+            html += '</div>';
+        });
+        return html + '</div>';
+    }
+
+    function renderProgress() {
+        const tot = totalTasks(), d = doneTasks(), pct = Math.round(d / tot * 100);
+        let html = `<div class="stats-bar">
+    <div class="stat-card"><div class="stat-num">${pct}%</div><div class="stat-label">overall done</div></div>
+    <div class="stat-card"><div class="stat-num">${d}</div><div class="stat-label">tasks complete</div></div>
+    <div class="stat-card"><div class="stat-num">${tot - d}</div><div class="stat-label">tasks left</div></div>
+    <div class="stat-card"><div class="stat-num">12</div><div class="stat-label">total weeks</div></div>
+  </div><div style="display:flex;flex-direction:column;gap:8px">`;
+        weeks.forEach((w, wi) => {
+            const { tot: wt, d: wd } = weekDone(wi);
+            const wp = wt > 0 ? Math.round(wd / wt * 100) : 0;
+            const ph = phases[w.phase];
+            html += `<div style="display:grid;grid-template-columns:80px 1fr 40px;gap:10px;align-items:center">
+      <span style="font-size:12px;color:var(--color-text-secondary)">Week ${w.week}</span>
+      <div style="height:6px;background:var(--color-background-secondary);border-radius:3px">
+        <div style="height:6px;background:${ph.color};border-radius:3px;width:${wp}%;transition:width 0.3s"></div>
+      </div>
+      <span style="font-size:11px;color:var(--color-text-secondary);text-align:right">${wp}%</span>
+    </div>`;
+        });
+        return html + '</div>';
+    }
+
+    function toggleWeek(wi) {
+        expanded[wi] = !expanded[wi];
+        render();
+    }
+
+    function goToWeek(wi) {
+        currentView = 'timeline';
+        activeFilter = null;
+        expanded[wi] = true;
+        document.getElementById('filterChip').style.display = 'none';
+        document.getElementById('viewTitle').textContent = '12-week timeline';
+        render();
+        setTimeout(() => {
+            const cards = document.querySelectorAll('.week-card');
+            const visible = weeks.filter((_, i) => i === wi);
+            if (cards.length > 0) { cards[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' }) }
+        }, 100);
+    }
+
+    function attachHandlers() { }
+
+    function toggleTask(e, key) {
+        e.stopPropagation();
+        done[key] = !done[key];
+        render();
+    }
+
+    render();
+</script>
